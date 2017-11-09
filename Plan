@@ -1,0 +1,72 @@
+overall state machine
+- wait
+- get inputs
+- update
+- erase
+- draw
+
+wait
+- rate divider
+
+get inputs
+
+update
+- detect end of row
+
+erase
+- erase old row
+
+draw
+- draw and move squares - 6 state machines to draw the rows
+x draw score 
+
+speeding up
+x controlled by wait counter
+
+datapath
+- random number generator
+- shift register for column data - holds 7 numbers, shift on edge, 
+
+specs
+
+datapath
+- 00 1st column
+- 01 2nd column
+- 10 3rd column
+- 11 4th column
+
+screen
+- sides gray
+- 320 x 240
+- one row 40 pixels
+- one column 20 pixels = 80 pixels wide (1/4 of screen) (120 -> 200)
+
+to do list
+- create bitmap
+
+datapath
+- shift register row input (input shift (edge), clock, resetn, output [1:0]0 - row6)
+- counter for offset [how far down a row we are] (input reset(edge), output offset[4:0])
+- reset screen datapath (input clock, resetn, output x, y, colour)
+
+state machines
+- erase old row (6 of them) (input #_erase_enable, input [1:0] line_above, input [#] offset, output x, y, [2:0] colour, #_erase_finished)
+- draw row (6 of them) (input #_draw_enable, input [1:0] line_below, input [#] offset, output x, y, [2:0] colour, #_draw_finished)
+- wait counter (10 fps for now)
+
+control state machines - Anna
+- control (input clock, resetn, input offset, input draw_done, input edge_done, input wait_done, input reset_screen_done, output reset_screen_go, output draw_go, output wait_start, output edge_go)
+  - wait for reset
+  - reset screen
+  - wait for next frame
+  - detect edge
+  - edge things (shift shift register, set offset to 0)
+  - draw
+- draw_control (input clock, resetn, input draw_go, input #_erase_finished x6, input #draw_finished x6, output #_erase_enable x6, #_draw_enable x6, output vga_enable, output draw_done)
+  - erase line 0
+  - draw line 0
+  - erase line 1
+  - draw line 1
+  
+ 
+  
