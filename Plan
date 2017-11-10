@@ -46,13 +46,13 @@ to do list
 
 datapath
 Danny - shift register row input (input shift (edge), clock, resetn, output [1:0] line_0 - line_6)
-Danny - counter for offset [how far down a row we are] (input reset(edge), output offset[4:0])
+Danny - counter for offset [how far down a row we are] (input reset(edge), output offset[5:0])
           - should go from 0 to 39
 Danny - wait counter (10 fps for now) (input clock, resetn, output enable)
 
 datapath draw-ers
-Anna - erase old row (6 of them) (input #_erase_enable, input [1:0] line_above, input [4:0] offset, output x, y, #_erase_finished)
-Anna - draw row (6 of them) (input #_draw_enable, input [1:0] line_below, input [4:0] offset, output x, y, #_draw_finished)
+Anna - erase old row (6 of them) (input #_erase_enable, input [1:0] line_above, input [5:0] offset, output x, y, #_erase_finished)
+Anna - draw row (6 of them) (input #_draw_enable, input [1:0] line_below, input [5:0] offset, output x, y, #_draw_finished)
 Danny - reset screen (input clock, resetn (start), output x, y, colour, output enable/done)
 
 control state machines
