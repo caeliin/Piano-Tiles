@@ -46,7 +46,7 @@ to do list
 
 datapath
 Danny - shift register row input (input shift (edge), clock, resetn, output [1:0] line_0 - line_6)
-Danny - counter for offset [how far down a row we are] (input reset(edge), output offset[5:0])
+Danny - counter for offset [how far down a row we are] (input resetn, edge, increment, output offset[5:0])
           - should go from 0 to 39
 Danny - wait counter (10 fps for now) (input clock, resetn, output enable)
 
@@ -56,13 +56,14 @@ Anna - draw row (6 of them) (input #_draw_enable, input [1:0] line_below, input 
 Danny - reset screen (input clock, resetn (start), output x, y, colour, output enable/done)
 
 control state machines
-Anna - control (input clock, resetn, input offset, input draw_done, input edge_done, input wait_done, input reset_screen_done, output reset_screen_go, output draw_go, output wait_start, output edge_go)
+Anna - control (input clock, resetn, draw_done, wait_done, reset_screen_done, input [5:0] offset, output reset_screen_go, output draw_go, output wait_start, output edge_go)
   - wait for reset
   - reset screen
-  - wait for next frame
   - detect edge
   - edge things (shift shift register, set offset to 0)
   - draw
+  - wait for next frame
+  - increment offset
 Anna - draw_control (input clock, resetn, input erase_1_x, erase_1_y, draw_1_x, draw_1_y, input draw_go, input #_erase_finished x6, input #draw_finished x6, output #_erase_enable x6, #_draw_enable x6, output vga_enable, output draw_done)
   - erase line 0
   - draw line 0
