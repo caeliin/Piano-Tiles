@@ -39,7 +39,7 @@ screen
 - sides gray
 - 320 x 240
 - one row 40 pixels
-- one column 20 pixels = 80 pixels wide (1/4 of screen) (120 -> 200)
+- one column 20 pixels = 80 pixels wide (1/4 of screen) (120 -> 199 inclusive)
 
 to do list
 - create bitmap
@@ -52,8 +52,8 @@ Danny - counter for offset [how far down a row we are] (input resetn, edge, incr
 Danny - wait counter (10 fps for now) (input clock, resetn, output enable)
 
 datapath draw-ers
-Anna - erase old row (6 of them) (input #_erase_enable, input [1:0] line_above, input [5:0] offset, output x, y, #_erase_finished)
-Anna - draw row (6 of them) (input #_draw_enable, input [1:0] line_below, input [5:0] offset, output x, y, #_draw_finished)
+Anna - erase old row (input erase_enable, [3:0] line_id, input [1:0] line_above, input [5:0] offset, output x, y, #_erase_finished)
+Anna - draw row  (input draw_enable, [3:0] line_id, input [2:0] line_below, input [5:0] offset, output x, y, #_draw_finished)
 Danny - reset screen (input clock, resetn (start), output x, y, colour, output enable/done)
 
 control state machines
@@ -65,7 +65,7 @@ Anna - control (input clock, resetn, draw_done, wait_done, reset_screen_done, in
   - draw
   - wait for next frame
   - increment offset
-Anna - draw_control (input clock, resetn, input erase_1_x, erase_1_y, draw_1_x, draw_1_y, input draw_go, input #_erase_finished x6, input #draw_finished x6, output #_erase_enable x6, #_draw_enable x6, output vga_enable, output draw_done)
+Anna - draw_control (input clock, resetn, input erase_1_x, erase_1_y, draw_1_x, draw_1_y, input draw_go, input #_erase_finished x6, input #draw_finished x6, output #_erase_enable x6, #_draw_enable x6, output vga_enable, output [2:0] colour, output draw_done)
   - erase line 0
   - draw line 0
   - erase line 1
