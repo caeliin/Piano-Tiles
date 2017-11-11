@@ -65,7 +65,7 @@ Anna - control (input clock, resetn, draw_done, wait_done, reset_screen_done, in
   - draw
   - wait for next frame
   - increment offset
-Anna - draw_control (input clock, resetn, input erase_1_x, erase_1_y, draw_1_x, draw_1_y, input draw_go, input #_erase_finished x6, input #draw_finished x6, output #_erase_enable x6, #_draw_enable x6, output vga_enable, output draw_done)
+Anna - draw_control (input clock, resetn, [5:0] offset, input erase_1_x, erase_1_y, draw_1_x, draw_1_y, input draw_go, input #_erase_finished x6, input #draw_finished x6, output #_erase_enable x6, #_draw_enable x6, output vga_enable, output draw_done)
   - erase line 0
   - draw line 0
   - erase line 1
