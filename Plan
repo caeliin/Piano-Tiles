@@ -18,7 +18,7 @@ erase
 
 draw
 - draw and move squares - 6 state machines to draw the rows
-x draw score 
+x draw score - HEX display?
 
 speeding up
 x controlled by wait counter
@@ -30,10 +30,11 @@ datapath
 specs
 
 datapath
-- 00 1st column
-- 01 2nd column
-- 10 3rd column
-- 11 4th column
+- 000 blank
+- 001 1st column
+- 010 2nd column
+- 011 3rd column
+- 100 4th column
 
 screen
 - sides gray
