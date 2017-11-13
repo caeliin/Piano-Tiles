@@ -71,3 +71,19 @@ Anna - draw_control (input clock, resetn, input erase_1_x, erase_1_y, draw_1_x, 
   - draw line 0
   - erase line 1
   - draw line 1
+
+Week 2
+
+Danny - modify the line register to remove the block (input correct)
+Anna - clear the block from the screen on correct button (input correct, output done)
+
+Anna - register to detect correct button press (input clock, reset, line register, edge, keys, output correct, incorrect)
+Anna -add fail state (input incorrect)
+Anna -draw fail state (input incorrect, done)
+Anna -pause fail state
+
+Anna -modify the master control to check ^ and reset it,
+
+Danny - score register (clock, resetn, increment (correct), output number)
+
+Danny - hex decimal number output (show ^ in decimal) (input number, output to hex)
