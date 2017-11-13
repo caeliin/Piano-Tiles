@@ -22,7 +22,7 @@ module resetscreen (
 		if(!resetn) begin 
 			if(counterenable==1'b0)
 			begin
-			counterenable <=1'b1;
+			counterenable =1'b1;
 			x = initial_x; 
 			y = initial_y;
 			colour = initial_c;
