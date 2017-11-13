@@ -7,18 +7,15 @@ module counteroffset(
 	input offset_increase,
 	input clk,
 	
-	output reg offset[5:0]);
+	output reg [5:0] offset);
 
-		 
 	always @(posedge clk)
 		begin	
 			if(!resetn) 
-				offset <=5'd0; 
-			if(edge_go)
-				offset <=5'd0;
-			if(offset=5'd39)
+				offset <= 5'd0; 
+			else if(edge_go)
 				offset <= 5'd0;
-			if(offset_increase)
+			else if(offset_increase)
 				offset <= offset + 1'b1;
 		end
 

@@ -3,43 +3,41 @@
 
 module resetscreen (
 	input clock, 
-	input resetn, 
+	input reset_screen_go, 
 	
-	output reg x, y, colour, 
-	output reg resetdone
-)
-
-	
+	output reg [8:0] x, 
+	output reg [7:0] y, 
+	output reg [2:0] colour, 
+	output reg vga_enable,
+		resetdone
+);
 
     localparam MAX_X = 9'd199; 
-    localparam MAX_Y = 7'd239;
-	 localparam initial_x= 9'd120;
-	 localparam initial_y = 7'd0;
-	 localparam initial_c = 3'b111;//set initial colour to white 
+    localparam MAX_Y = 8'd239;
+	localparam initial_x = 9'd120;
+	localparam initial_y = 8'd0;
+	localparam initial_c = 3'b111;//set initial colour to white 
 	reg counterenable;
-	counterenable = 1'b0; 
-	 always@(posedge clk) begin 
-		if(!resetn) begin 
-			if(counterenable==1'b0)
-			begin
-			counterenable =1'b1;
-			x = initial_x; 
-			y = initial_y;
-			colour = initial_c;
-			resetdone = 1'b0;	
-			end
-			if (x==MAX_X) 
-				begin 
-					x =initial_x;
-					resetdone=1'b1;
-					
-				if(y==MAX_y)
-					y = initial_y;
-				else
-					y = y + 1'b1;
-				end
-			else
-				x = x + 1'b1;	
-			end
+	
+	always @(posedge clock) begin
+	if (!reset_screen_go) begin
+		x = initial_x; 
+		y = initial_y;
+		colour = initial_c;
+		resetdone = 1'b0;
+		vga_enable = 1'b0;
 		end
+	else begin
+		vga_enable = 1'b1;
+		if (x == MAX_X) begin 
+			if(y == MAX_Y)
+				resetdone = 1'b1;					
+			else
+				x = initial_x;
+				y = y + 1'b1;
+			end
+		else
+			x = x + 1'b1;	
+		end
+	end
 endmodule

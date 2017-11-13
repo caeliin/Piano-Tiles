@@ -38,10 +38,11 @@ module draw_control (
 		erase_enable,
 	output reg [8:0] x_out,
 	output reg [7:0] y_out,
-	output reg [2:0] colour_out
+	output reg [2:0] colour_out,
+	output reg [4:0] current_state
 	);
 	
-	reg [4:0] current_state, next_state;
+	reg [4:0] next_state;
 	
 	localparam	WAIT		= 4'd0,
 					ERASE_0	= 4'd2,
@@ -63,7 +64,7 @@ module draw_control (
 	always@(*)
 	begin: state_table
 			case (current_state)
-				WAIT		: next_state = draw_enable ? ERASE_0 : WAIT;
+				WAIT		: next_state = draw_go ? ERASE_0 : WAIT;
 				ERASE_0	: next_state = erase_done[0] ? DRAW_0 : ERASE_0;
 				DRAW_0	: next_state = draw_done[0] ? ERASE_1 : DRAW_0;
 				ERASE_1	: next_state = erase_done[1] ? DRAW_1 : ERASE_1;
@@ -76,14 +77,14 @@ module draw_control (
 				DRAW_4	: next_state = draw_done[4] ? ERASE_5 : DRAW_4;
 				ERASE_5	: next_state = erase_done[5] ? DRAW_5 : ERASE_5;
 				DRAW_5	: next_state = draw_done[5] ? DONE : DRAW_5;
-				DONE		: next_state = draw_enable ? DONE : WAIT;
+				DONE		: next_state = draw_go ? DONE : WAIT;
 				default: next_state = WAIT;
 			endcase
 	end //state_table
 
 	always @(*)
 	begin: enable_signals
-		draw_done = 1'b0;
+		all_drawing_done = 1'b0;
 		vga_enable = 1'b0;
 		draw_enable = 6'b000000;
 		erase_enable = 6'b000000;
@@ -174,7 +175,12 @@ module draw_control (
 				colour_out = {draw_colour[5], draw_colour[5], draw_colour[5]};
 				vga_enable = 1'b1;
 				end
-			DONE		: all_drawing_done = 1'b1;
+			DONE		: begin
+				all_drawing_done = 1'b1;
+				x_out = 9'b0;
+				y_out = 8'b0;
+				colour_out = 3'b111;
+				end
 			default: begin
 				x_out = 9'b0;
 				y_out = 8'b0;
@@ -298,7 +304,7 @@ module erase (
 	output reg [8:0] x,
 	output reg [7:0] y,
 	output colour,
-		erase_done
+	output reg erase_done
 	);
 	
 	reg [7:0] line_id_offset;

@@ -1,21 +1,22 @@
 `timescale 1ns / 1ns
 
-module waitcounter(enable, clk);
-	input clk;
-	output enable;
-	wire clear;
+module waitcounter(clk, wait_done, wait_go);
+	input clk, wait_go;
+	output reg wait_done;
 	
 	reg [22:0]count;
-	
-	assign enable=clear;
-	assign clear=(count==23'd5000000)?1'b1:1'b0; //when counter hits 5m -- will give 10 enables a second
-		
-	always @(posedge clk)
-		begin	
-			if(clear) 
-				count<=23'd0; 
+
+	always @(posedge clk) begin
+		if(!wait_go) begin
+			count <= 23'd0;
+			wait_done <= 1'b0;
+			end
+		else begin
+			if(count == 23'd500000)
+				wait_done <= 1'b1;
 			else 
 				count <= count + 1'b1;
 		end
+	end
 endmodule
 

@@ -1,4 +1,4 @@
-module draw_fsm (
+module draw_master (
 	input clock, 
 		resetn, 
 		draw_go,
@@ -10,7 +10,7 @@ module draw_fsm (
 		line_4,
 		line_5,
 		line_6,
-	output all_draw_done, vga_enable
+	output all_draw_done, vga_enable,
 	output [8:0] x_out,
 	output [7:0] y_out,
 	output [2:0] colour_out
@@ -48,11 +48,9 @@ module draw_fsm (
 		erase_3_y,
 		erase_4_y,
 		erase_5_y;
-		
 	
-		
-	
-	module draw_control c0(
+	wire [4:0] current_state;
+	draw_control c0(
 		.clock(clock),
 		.resetn(resetn),
 		.draw_go(draw_go),
@@ -91,7 +89,8 @@ module draw_fsm (
 		.erase_enable(erase_enable[5:0]),
 		.x_out(x_out[8:0]),
 		.y_out(y_out[7:0]),
-		.colour_out(colour_out[2:0])
+		.colour_out(colour_out[2:0]),
+		.current_state(current_state[4:0])
 	);
 	
 	draw draw0 (
@@ -176,7 +175,7 @@ module draw_fsm (
 		.clock(clock),
 		.erase_enable(erase_enable[0]),
 		.line_id(4'b0000),
-		.line_below(line1[2:0]),
+		.line_below(line_1[2:0]),
 		.offset(offset[5:0]),
 
 		.x(erase_0_x[8:0]),
@@ -189,7 +188,7 @@ module draw_fsm (
 		.clock(clock),
 		.erase_enable(erase_enable[1]),
 		.line_id(4'b0001),
-		.line_below(line2[2:0]),
+		.line_below(line_2[2:0]),
 		.offset(offset[5:0]),
 
 		.x(erase_1_x[8:0]),
@@ -201,7 +200,7 @@ module draw_fsm (
 		.clock(clock),
 		.erase_enable(erase_enable[2]),
 		.line_id(4'b0010),
-		.line_below(line3[2:0]),
+		.line_below(line_3[2:0]),
 		.offset(offset[5:0]),
 
 		.x(erase_2_x[8:0]),
@@ -213,7 +212,7 @@ module draw_fsm (
 		.clock(clock),
 		.erase_enable(erase_enable[3]),
 		.line_id(4'b0011),
-		.line_below(line4[2:0]),
+		.line_below(line_4[2:0]),
 		.offset(offset[5:0]),
 
 		.x(erase_3_x[8:0]),
@@ -225,7 +224,7 @@ module draw_fsm (
 		.clock(clock),
 		.erase_enable(erase_enable[4]),
 		.line_id(4'b0100),
-		.line_below(line5[2:0]),
+		.line_below(line_5[2:0]),
 		.offset(offset[5:0]),
 
 		.x(erase_4_x[8:0]),
@@ -237,7 +236,7 @@ module draw_fsm (
 		.clock(clock),
 		.erase_enable(erase_enable[5]),
 		.line_id(4'b0101),
-		.line_below(line6[2:0]),
+		.line_below(line_6[2:0]),
 		.offset(offset[5:0]),
 
 		.x(erase_5_x[8:0]),
@@ -245,35 +244,5 @@ module draw_fsm (
 		.colour(erase_colour[5]),
 		.erase_done(erase_done[5])
 	);
-	
-	always @(*) begin
-		if (draw_enable[0])
-			colour_out = {draw_colour[0], draw_colour[0], draw_colour[0]};
-		else if (draw_enable[1])
-			colour_out = {draw_colour[1], draw_colour[1], draw_colour[1]};
-		else if (draw_enable[2])
-			colour_out = {draw_colour[2], draw_colour[2], draw_colour[2]};
-		else if (draw_enable[3])
-			colour_out = {draw_colour[3], draw_colour[3], draw_colour[3]};
-		else if (draw_enable[4])
-			colour_out = {draw_colour[4], draw_colour[4], draw_colour[4]};
-		else if (draw_enable[5])
-			colour_out = {draw_colour[5], draw_colour[5], draw_colour[5]};
-		else if (erase_enable[0])
-			colour_out = {erase_colour[0], erase_colour[0], erase_colour[0]};
-		else if (erase_enable[1])
-			colour_out = {erase_colour[1], erase_colour[1], erase_colour[1]};
-		else if (erase_enable[2])
-			colour_out = {erase_colour[2], erase_colour[2], erase_colour[2]};
-		else if (erase_enable[3])
-			colour_out = {erase_colour[3], erase_colour[3], erase_colour[3]};
-		else if (erase_enable[4])
-			colour_out = {erase_colour[4], erase_colour[4], erase_colour[4]};
-		else if (erase_enable[5])
-			colour_out = {erase_colour[5], erase_colour[5], erase_colour[5]};
-		else 
-			colour_out = 3'b111;
-	end
-	
 	
 endmodule
