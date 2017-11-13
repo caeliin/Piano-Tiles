@@ -16,14 +16,17 @@ module resetscreen (
 	 localparam initial_x= 9'd120;
 	 localparam initial_y = 7'd0;
 	 localparam initial_c = 3'b111;//set initial colour to white 
-	 
+	reg counterenable; 
 	 always@(posedge clk) begin 
 		if(!resetn) begin 
+			if(counterenable==1'b0)
+			begin
+			counterenable=1'b1;
 			x <= initial_x; 
 			y <= initial_y;
 			colour <= initial_c;
 			resetdone = 1'b0;	
-			
+			end
 			if (x==MAX_X) 
 				begin 
 					x <=initial_x;
