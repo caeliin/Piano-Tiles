@@ -4,7 +4,8 @@
 module shiftrow(
 	input shift, 
 	input clk, 
-	input resetn, 
+	input resetn,
+	input correct_input,
 	
 	output reg	[2:0] line_0,	
 	output reg  [2:0] line_1,
@@ -35,6 +36,8 @@ module shiftrow(
 			line_5<=3'b000;
 			line_6<=3'b000;
 			end
+		else if (correct_input)
+			line_6<=3'b000;
 		else if(shift) begin
 			line_0<= d[1:0] + 1'b1;    	
 			line_1<=line_0;
