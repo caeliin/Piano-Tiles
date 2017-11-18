@@ -74,15 +74,15 @@ Anna - draw_control (input clock, resetn, input erase_1_x, erase_1_y, draw_1_x, 
 
 Week 2
 
-Danny - modify the line register to remove the block (input correct)
+Anna - modify the line register to remove the block (input correct)
 Anna - clear the block from the screen on correct button (input correct, output done)
+  - done with a draw bottom block module and two modules for the different colours/states
 
 Anna - register to detect correct button press (input clock, reset, line register, edge, keys, output correct, incorrect)
-Anna -add fail state (input incorrect)
-Anna -draw fail state (input incorrect, done)
-Anna -pause fail state
+Anna - fail by wrong key press and missed key states (input go, done)
+Anna - redraw stuff for ^
 
-Anna -modify the master control to check ^ and reset it,
+Anna - modify the master control to check ^
 
 Danny - score register (clock, resetn, increment (correct), output number)
 
