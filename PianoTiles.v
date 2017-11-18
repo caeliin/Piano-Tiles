@@ -27,7 +27,7 @@ module PianoTiles(
 
 	wire resetn;	
 	
-	assign resetn = KEY[3];
+	assign resetn = KEY[8];
 	
 	wire reset_screen_done, draw_done, wait_done, 
 		reset_screen_go, draw_go, wait_go, edge_go, offset_increase,
