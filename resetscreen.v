@@ -21,7 +21,7 @@ module resetscreen (
 	
 	always @(posedge clock) begin
 	if (!reset_screen_go) begin
-		x = initial_x; 
+		x = initial_x - 1'b1; 
 		y = initial_y;
 		colour = initial_c;
 		resetdone = 1'b0;

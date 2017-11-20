@@ -1,6 +1,7 @@
 module draw_master (
 	input clock, 
 		resetn, 
+		startn,
 		draw_go,
 	input [5:0] offset,
 	input [2:0] line_0,
@@ -10,6 +11,7 @@ module draw_master (
 		line_4,
 		line_5,
 		line_6,
+	input [5:0] main_state, 
 	output all_draw_done, vga_enable,
 	output [8:0] x_out,
 	output [7:0] y_out,
@@ -53,7 +55,9 @@ module draw_master (
 	draw_control c0(
 		.clock(clock),
 		.resetn(resetn),
+		.startn(startn),
 		.draw_go(draw_go),
+		.main_state(main_state[5:0]),
 		.draw_done(draw_done[5:0]),
 		.erase_done(erase_done[5:0]),
 		.draw_colour(draw_colour[5:0]),

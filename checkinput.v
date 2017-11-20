@@ -1,8 +1,9 @@
 module checkInput(
 	input check_input_go,
+		clock,
 		key3, key2, key1, key0,
-		[2:0] line_6,
-	output check_input_done,
+	input [2:0] line_6,
+	output reg check_input_done,
 		correct,
 		incorrect
 	);
@@ -32,6 +33,8 @@ module checkInput(
 						incorrect <= 1'b1;
 						check_input_done <= 1'b1;
 					end
+					else
+						check_input_done <= 1'b1;
 				end
 				3'b010: begin
 					if (key2 == 1'b0) begin
@@ -44,6 +47,8 @@ module checkInput(
 						incorrect <= 1'b1;
 						check_input_done <= 1'b1;
 					end
+					else
+						check_input_done <= 1'b1;
 				end
 				3'b011: begin
 					if (key1 == 1'b0) begin
@@ -56,6 +61,8 @@ module checkInput(
 						incorrect <= 1'b1;
 						check_input_done <= 1'b1;
 					end
+					else
+						check_input_done <= 1'b1;
 				end
 				3'b100: begin
 					if (key0 == 1'b0) begin
@@ -68,9 +75,11 @@ module checkInput(
 						incorrect <= 1'b1;
 						check_input_done <= 1'b1;
 					end
+					else
+						check_input_done <= 1'b1;
 				end
 				default: begin
-					check_input_done <= 1'b0;
+					check_input_done <= 1'b1;
 					correct <= 1'b0;
 					incorrect <= 1'b0;
 				end

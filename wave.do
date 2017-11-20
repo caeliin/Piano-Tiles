@@ -11,6 +11,11 @@ vlog Master_control.v
 vlog Draw.v
 vlog counteroffset.v
 vlog draw_master.v
+vlog wrongkeyfail.v
+vlog scoreregister.v
+vlog correctinput.v
+vlog colourblock.v
+vlog checkinput.v
 
 #load simulation using Lab2Part2 as the top level simulation module
 vsim PianoTiles
@@ -24,11 +29,18 @@ add wave {/*}
 #clock repetition
 force {CLOCK_50} 0 0ns, 1 {1ns} -r 2ns
 
-force {KEY[3]} 1
+force {SW[0]} 1
+force {SW[9]} 1
 run 10ns
 
-force {KEY[3]} 0
+force {SW[0]} 0
 run 10ns
 
-force {KEY[3]} 1
-run 1000000ns
+force {SW[0]} 1
+run 10ns
+
+force {SW[9]} 0
+run 10ns
+
+force {SW[9]} 1
+run 10000000000ns

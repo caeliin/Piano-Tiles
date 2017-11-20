@@ -3,6 +3,8 @@
 
 module counteroffset(
 	input resetn, 
+	input startn,
+	input [5:0] current_state,
 	input edge_go,
 	input offset_increase,
 	input clk,
@@ -11,7 +13,7 @@ module counteroffset(
 
 	always @(posedge clk)
 		begin	
-			if(!resetn) 
+			if(!resetn | (!startn & current_state == 5'd0)) 
 				offset <= 5'd0; 
 			else if(edge_go)
 				offset <= 5'd0;

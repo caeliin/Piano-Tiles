@@ -1,11 +1,14 @@
 module colourBlock(
 	input clock,
 		colour_block_go,
+		resetn,
+		startn,
 	input [2:0] line_id,
 	input [5:0] offset,
-	output colour_block_done,
-	output [8:0] x,
-	output [7:0] y
+	input [5:0] current_state,
+	output reg colour_block_done,
+	output reg [8:0] x,
+	output reg [7:0] y
 	);
 	
 	reg [8:0] start_x, end_x;
@@ -40,7 +43,7 @@ module colourBlock(
 					
 	always @(posedge clock)
 	begin
-		if (!colour_block_go) begin
+		if (!resetn | (!startn & current_state == 5'd0) | !colour_block_go) begin
 			colour_block_done <= 1'b0;
 			y <= start_y;
 			x <= start_x;
@@ -66,12 +69,11 @@ module colourLine(
 	input clock,
 		colour_line_go,
 	input [2:0] line_6,
-	output colour_line_done,
-	output [8:0] x,
-	output [7:0] y
+	output reg colour_line_done,
+	output reg [8:0] x,
+	output reg [7:0] y
 	);
 	
-	reg [5:0] line_done;
 	reg [8:0] start_x, end_x;
 	
 	always @(*) 
@@ -116,9 +118,8 @@ module colourLine(
 					y <= y + 1'b1;	
 				end
 			end
-			else begin
+			else
 				x <= x + 1'b1;
-			end
 		end		
 	end
 	

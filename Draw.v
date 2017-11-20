@@ -1,6 +1,7 @@
 module draw_control (
 	input clock,
 		resetn,
+		startn,
 		draw_go,
 //I regret everything.
 	input [5:0] draw_done, //one for each draw/erase machine
@@ -31,7 +32,7 @@ module draw_control (
 		erase_3_y,
 		erase_4_y,
 		erase_5_y,	
-		
+	input [5:0] main_state,
 	output reg all_drawing_done,
 		vga_enable,
 	output reg [5:0] draw_enable, //one for each draw/erase machine
@@ -191,7 +192,7 @@ module draw_control (
 	
 	always @(posedge clock)
 	begin: state_FFs
-		if (!resetn)
+		if (!resetn | (!startn & main_state == 5'd0))
 			current_state <= WAIT;
 		else
 			current_state <= next_state;
