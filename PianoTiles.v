@@ -207,6 +207,7 @@ wire [23:0] Q;
 		
 	waitcounter waitface(
 		.clk(CLOCK_50), 
+		.Q(Q[23:0]),
 		.wait_done(wait_done), 
 		.wait_go(wait_go)
 		);

@@ -1,14 +1,23 @@
 `timescale 1ns / 1ns
 
-module waitcounter(clk, wait_done, wait_go);
+module waitcounter(clk, wait_done, wait_go, Q);
 	input clk, wait_go;
+	input [23:0] Q;
 	output reg wait_done;
 	
 	reg [22:0]count;
+	
+	reg [19:0] level;
+	always @(*) begin
+		if (level < 20)
+			level [19:0] = Q[23:4];
+		else 
+			level = 20'd20;
+	end
 
 	always @(posedge clk) begin
 		if(!wait_go) begin
-			count <= 23'd0;
+			count <= level * 10000;
 			wait_done <= 1'b0;
 			end
 		else begin
