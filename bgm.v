@@ -3,11 +3,13 @@
 module	bgm(
 	clk,
 	startenable,
+	resetn,
 	audio_output
 );
 
 input clk;
 input startenable;
+input resetn;
 output audio_output;
 
 reg [23:0] counter_4Hz;
@@ -49,6 +51,7 @@ end
 
 always @ (posedge clk_4Hz) begin
 	case (note)
+		'd0: origin <= 'do11111;
 		'd1: origin <= 'd4916;
 		'd2: origin <= 'd6168;
 		'd3: origin <= 'd7281;
@@ -75,12 +78,14 @@ always @ (posedge clk_4Hz) begin
 end
 
 always @ (posedge clk_4Hz) begin
+	if	(!resetn)
+		address <= 0;
 	if (address == 63)
 		address <= 0;
     else
 		address <= address + 1;
 	case (address)
-		0: note <= 3;
+		0: note <= 0;
 		1: note <= 3;
 		2: note <= 3;
 		3: note <= 3;
@@ -146,4 +151,4 @@ always @ (posedge clk_4Hz) begin
 		63: note <= 5;
 	endcase            
 end
-endmodule
+endmodule 
