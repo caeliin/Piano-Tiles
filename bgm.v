@@ -11,11 +11,11 @@ input startenable;
 output audio_output;
 
 reg [23:0] counter_4Hz;
-reg [23:0] counter_5MHz;
+reg [23:0] counter_6MHz;
 reg [13:0] count;
 reg [13:0] origin;
 reg audio_reg;
-reg clk_5MHz;
+reg clk_6MHz;
 reg clk_4Hz;
 reg [4:0] note;
 reg [7:0] address;
@@ -23,10 +23,10 @@ reg [7:0] address;
 assign audio_output = startenable ?  1'b1 : audio_reg;
 
 always @ (posedge clk) begin
-	counter_5MHz <= counter_5MHz + 1'b1;
-	if (counter_5MHz == 9) begin
-		clk_5MHz = ~clk_5MHz;
-		counter_5MHz <= 24'b0;
+	counter_6MHz <= counter_5MHz + 1'b1;
+	if (counter_6MHz == 8) begin
+		clk_6MHz = ~clk_6MHz;
+		counter_6MHz <= 24'b0;
 	end
 end
 
@@ -38,7 +38,7 @@ always @ (posedge clk) begin
 	end
 end
 
-always @ (posedge clk_5MHz) begin
+always @ (posedge clk_6MHz) begin
     if(count == 16383) begin
         count = origin;
         audio_reg = ~audio_reg;
