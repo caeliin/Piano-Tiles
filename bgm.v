@@ -1,44 +1,44 @@
 `timescale 1 ns / 1 ps
 
-module liangzhu_player (
+module	bgm(
 	clk,
-	i_button_n,
-	o_audio
+	startenable,
+	audio_output
 );
 
 input clk;
-input i_button_n;
-output o_audio;
+input startenable;
+output audio_output;
 
 reg [23:0] counter_4Hz;
-reg [23:0] counter_6MHz;
+reg [23:0] counter_5MHz;
 reg [13:0] count;
 reg [13:0] origin;
 reg audio_reg;
-reg clk_6MHz;
+reg clk_5MHz;
 reg clk_4Hz;
 reg [4:0] note;
-reg [7:0] len;
+reg [7:0] address;
 
-assign o_audio = i_button_n ?  1'b1 : audio_reg;
+assign audio_output = startenable ?  1'b1 : audio_reg;
 
 always @ (posedge clk) begin
-	counter_6MHz <= counter_6MHz + 1'b1;
-	if (counter_6MHz == 1) begin
-		clk_6MHz = ~clk_6MHz;
-		counter_6MHz <= 24'b0;
+	counter_5MHz <= counter_5MHz + 1'b1;
+	if (counter_5MHz == 9) begin
+		clk_5MHz = ~clk_5MHz;
+		counter_5MHz <= 24'b0;
 	end
 end
 
 always @ (posedge clk) begin
 	counter_4Hz <= counter_4Hz + 1'b1;
-	if (counter_4Hz == 2999999) begin	
+	if (counter_4Hz == 24999999) begin	
 		clk_4Hz = ~clk_4Hz;
 		counter_4Hz <= 24'b0;
 	end
 end
 
-always @ (posedge clk_6MHz) begin
+always @ (posedge clk_5MHz) begin
     if(count == 16383) begin
         count = origin;
         audio_reg = ~audio_reg;
@@ -75,11 +75,11 @@ always @ (posedge clk_4Hz) begin
 end
 
 always @ (posedge clk_4Hz) begin
-	if (len == 63)
-		len <= 0;
+	if (address == 63)
+		address <= 0;
     else
-		len <= len + 1;
-	case (len)
+		address <= address + 1;
+	case (address)
 		0: note <= 3;
 		1: note <= 3;
 		2: note <= 3;
