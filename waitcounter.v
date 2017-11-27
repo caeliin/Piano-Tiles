@@ -5,19 +5,20 @@ module waitcounter(clk, wait_done, wait_go, Q);
 	input [23:0] Q;
 	output reg wait_done;
 	
-	reg [22:0]count;
+	reg [22:0] count;
 	
-	reg [19:0] level;
+	reg [20:0] level;
+	
 	always @(*) begin
-		if (level < 20)
-			level [19:0] = Q[23:4];
+		if (Q[23:3] < 20)
+			level [20:0] = Q[23:3];
 		else 
-			level = 20'd20;
+			level = 21'd10;
 	end
 
 	always @(posedge clk) begin
 		if(!wait_go) begin
-			count <= level * 10000;
+			count <= level * 20000;
 			wait_done <= 1'b0;
 			end
 		else begin

@@ -286,11 +286,14 @@ wire [23:0] Q;
 		.HEX5(HEX5[6:0]),
 		.Q(Q[23:0])
 	);
+	
+	/*
 	bgm ihopethisworks(
 		.clk(CLOCK_50),
 		.startenable(startenable),
 		.resetn(resetn),
 		.audio_output(audio_output)
 	);
+	*/
 	
 endmodule

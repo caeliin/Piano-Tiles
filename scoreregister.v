@@ -6,12 +6,53 @@ module scoreregister (clock, resetn, startn, current_state, increment,HEX0,HEX1,
 	reg everyOther;
 	output [6:0]HEX0, HEX1,HEX2,HEX3,HEX4,HEX5;
 	
-	hexdisplay h1(.c3(Q[3]), .c2(Q[2]), .c1(Q[1]), .c0(Q[0]), .s(HEX0));
-	hexdisplay h2(.c3(Q[7]), .c2(Q[6]), .c1(Q[5]), .c0(Q[4]), .s(HEX1));
-	hexdisplay h3(.c3(Q[11]), .c2(Q[10]), .c1(Q[9]), .c0(Q[8]), .s(HEX2));
-	hexdisplay h4(.c3(Q[15]), .c2(Q[14]), .c1(Q[13]), .c0(Q[12]), .s(HEX3));
-	hexdisplay h5(.c3(Q[19]), .c2(Q[18]), .c1(Q[17]), .c0(Q[16]), .s(HEX4));
-	hexdisplay h6(.c3(Q[23]), .c2(Q[22]), .c1(Q[21]), .c0(Q[20]), .s(HEX5));
+	reg [3:0] digit_5, digit_4, digit_3, digit_2, digit_1, digit_0;
+	
+	always@(*) begin
+		digit_0 = Q[3:0];
+		digit_1 = Q[7:4];
+		digit_2 = Q[11:8];
+		digit_3 = Q[15:12];
+		digit_4 = Q[19:16];
+		digit_5 = Q[23:20];
+		
+		if (digit_0 > 9) begin
+			digit_1 = digit_1 + 1;
+			digit_0 = digit_0 - 10;
+		end
+		if (digit_1 > 9) begin
+			digit_2 = digit_2 + 1;
+			digit_1 = digit_1 - 10;
+		end
+		if (digit_2 > 9) begin
+			digit_3 = digit_3 + 1;
+			digit_2 = digit_2 - 10;
+		end
+		if (digit_3 > 9) begin
+			digit_4 = digit_4 + 1;
+			digit_3 = digit_3 - 10;
+		end
+		if (digit_4 > 9) begin
+			digit_5 = digit_5 + 1;
+			digit_4 = digit_4 - 10;
+		end
+		if (digit_5 > 9) begin
+			digit_0 = 9;
+			digit_1 = 9;
+			digit_2 = 9;
+			digit_3 = 9;
+			digit_4 = 9;
+			digit_5 = 9;
+		end
+	
+	end
+	
+	hexdisplay h1(.c3(digit_0[3]), .c2(digit_0[2]), .c1(digit_0[1]), .c0(digit_0[0]), .s(HEX0));
+	hexdisplay h2(.c3(digit_1[3]), .c2(digit_1[2]), .c1(digit_1[1]), .c0(digit_1[0]), .s(HEX1));
+	hexdisplay h3(.c3(digit_2[3]), .c2(digit_2[2]), .c1(digit_2[1]), .c0(digit_2[0]), .s(HEX2));
+	hexdisplay h4(.c3(digit_3[3]), .c2(digit_3[2]), .c1(digit_3[1]), .c0(digit_3[0]), .s(HEX3));
+	hexdisplay h5(.c3(digit_4[3]), .c2(digit_4[2]), .c1(digit_4[1]), .c0(digit_4[0]), .s(HEX4));
+	hexdisplay h6(.c3(digit_5[3]), .c2(digit_5[2]), .c1(digit_5[1]), .c0(digit_5[0]), .s(HEX5));
 			
 always@ (posedge clock)
 	begin 
